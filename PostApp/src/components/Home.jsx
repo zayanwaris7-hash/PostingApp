@@ -1,24 +1,76 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { updateStatus } from '../RTK/UserSlice'; // Update path as needed
+import authService from '../Appwrite/config'; // Update path as needed
 
 function Home() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [err, seterr] = useState("");
+
+  const handleLogout = async () => {
+    seterr("");
+    try {
+      setIsLoggingOut(true);
+      await authService.logout(); // Appwrite call
+      dispatch(updateStatus(false)); // Redux call
+      navigate('/container');
+    } catch (error) {
+      console.error("Logout failed:", error.message);
+      seterr(error.message);
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     /* p-4 on mobile, p-6 or p-8 on larger screens to give breathing room */
     <div className="max-w-2xl mx-auto w-full space-y-6 sm:space-y-8 px-4 sm:px-6 py-4 sm:py-8">
-      
+
+      {/* 0. Top Navigation / Logout Bar */}
+      <div className="flex justify-between items-center mb-2 px-2">
+        <h2 className="text-xl font-black text-slate-800 tracking-tight">Feed</h2>
+        <button
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+          className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 hover:border-red-100 transition-all active:scale-95 disabled:opacity-50 shadow-sm group"
+        >
+          {isLoggingOut ? (
+            <svg className="animate-spin h-4 w-4 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+            </svg>
+         )}
+          <span>{isLoggingOut ? 'Leaving...' : 'Sign Out'}</span>
+        </button>
+      </div>
+       
+          {err && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3 text-red-600">
+              <div className="w-2 h-2 bg-red-600 rounded-full animate-ping" />
+              <p className="text-sm font-semibold">{err}</p>
+              </div>
+              )}
+
       {/* 1. Create Post Section */}
       <div className="bg-white rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 shadow-sm border border-slate-100">
         <div className="flex gap-3 sm:gap-4">
-          {/* Avatar: Hidden or smaller on very small screens if desired, but 10-12 is usually safe */}
           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-100 flex-shrink-0 border-2 border-white shadow-sm overflow-hidden">
             <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="avatar" />
           </div>
-          
+
           <div className="flex-1">
-            <textarea 
+            <textarea
               placeholder="What's on your mind, dev?"
               className="w-full bg-slate-50 border-none rounded-xl sm:rounded-2xl p-3 sm:p-4 text-sm sm:text-base text-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none h-20 sm:h-24"
             ></textarea>
-            
+
             <div className="flex justify-between items-center mt-3 sm:mt-4">
               <div className="flex gap-1 sm:gap-2">
                 <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
@@ -45,10 +97,9 @@ function Home() {
         <p className="text-xs sm:text-sm text-slate-500 mb-6 sm:mb-8 max-w-[250px] sm:max-w-xs mx-auto font-medium">
           Follow other developers and creators to start seeing what they're building!
         </p>
-        
+
         {/* Suggestion List */}
         <div className="space-y-3 sm:space-y-4 max-w-sm mx-auto">
-          {/* Suggestion Item */}
           <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl hover:bg-indigo-50 transition-colors">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-200 overflow-hidden">
@@ -64,7 +115,6 @@ function Home() {
             </button>
           </div>
 
-          {/* Suggestion Item 2 */}
           <div className="flex items-center justify-between p-3 sm:p-4 bg-slate-50 rounded-xl sm:rounded-2xl hover:bg-indigo-50 transition-colors">
             <div className="flex items-center gap-2 sm:gap-3">
               <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-slate-200 overflow-hidden">

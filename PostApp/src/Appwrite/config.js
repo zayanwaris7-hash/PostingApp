@@ -1,5 +1,7 @@
 import {Client , Account , ID} from 'appwrite'
 import Str from '../Strigify/toStr'
+import { Url } from '../components/ForgetPasswordPage';
+
 export class AuthService {
     client = new Client();
     account;
@@ -44,12 +46,30 @@ export class AuthService {
         return null;
     }
 
+
+
     async logout() {
 
         try {
             await this.account.deleteSessions();
         } catch (error) {
             console.log("Appwrite serive :: logout :: error", error);
+        }
+    }
+
+    async CreatePasswordReset({email,url}){
+        try {
+           return await this.account.createRecovery(email,url);
+        } catch (error) {
+            throw(error)
+        }
+    }
+
+    async ConfirmedResetPassword(userId,secret,password){
+        try {
+           return await this.account.updateRecovery(userId,secret,password,password)
+        } catch (error) {
+            throw(error)
         }
     }
 }

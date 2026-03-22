@@ -85,7 +85,7 @@ function Login() {
             <div className="flex justify-between mb-2">
               <label className="text-sm font-semibold text-slate-700">Password</label>
               <button 
-                onClick={() => navigate('/forgot-password')} 
+                onClick={() => navigate('/forget')} 
                 className="text-sm font-medium text-blue-600 hover:underline"
               >
                 Forgot?
