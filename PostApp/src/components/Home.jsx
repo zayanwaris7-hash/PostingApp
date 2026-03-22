@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { updateStatus } from '../RTK/UserSlice'; // Update path as needed
 import authService from '../Appwrite/config'; // Update path as needed
+import TextEditor from './TextEditor';
 
 function Home() {
+  const user =  useSelector((state) => (state.UserData));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -62,14 +64,11 @@ function Home() {
       <div className="bg-white rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 shadow-sm border border-slate-100">
         <div className="flex gap-3 sm:gap-4">
           <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-100 flex-shrink-0 border-2 border-white shadow-sm overflow-hidden">
-            <img src="https://ui-avatars.com/api/?name=User&background=6366f1&color=fff" alt="avatar" />
+            <img src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=6366f1&color=fff&size=128`} alt="avatar" />
           </div>
 
           <div className="flex-1">
-            <textarea
-              placeholder="What's on your mind, dev?"
-              className="w-full bg-slate-50 border-none rounded-xl sm:rounded-2xl p-3 sm:p-4 text-sm sm:text-base text-slate-700 placeholder:text-slate-400 focus:ring-2 focus:ring-indigo-500 focus:bg-white transition-all resize-none h-20 sm:h-24"
-            ></textarea>
+            <TextEditor/>
 
             <div className="flex justify-between items-center mt-3 sm:mt-4">
               <div className="flex gap-1 sm:gap-2">

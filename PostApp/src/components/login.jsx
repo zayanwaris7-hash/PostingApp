@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateStatus } from '../RTK/UserSlice';
@@ -11,36 +11,40 @@ function Login() {
   const [pas, setpas] = useState("");
   const [err, setErr] = useState("");
   const [loading, setLoading] = useState(false);
+  
+ 
+  
 
   const handle = () => {
     navigate("/signin")
   }
-
   const loginn = async () => {
-    try {
-      setErr("");
-      setLoading(true);
-      
-      // CRITICAL: Added 'await' here so the catch block can actually catch errors
-      const session = await authService.login({
-        email: em,
-        password: pas
-      });
 
-      if (session) {
-        // Here you would typically get user data and dispatch to Redux
-        // const userData = await authService.getCurrentUser();
-        // if(userData) dispatch(updateStatus(userData));
-        navigate("/home"); 
-        dispatch(updateStatus(true));
+      try {
+        setErr("");
+        setLoading(true);
+
+        // CRITICAL: Added 'await' here so the catch block can actually catch errors
+        const session = await authService.login({
+          email: em,
+          password: pas
+        });
+
+        if (session) {
+          // Here you would typically get user data and dispatch to Redux
+          // const userData = await authService.getCurrentUser();
+          // if(userData) dispatch(updateStatus(userData));
+          navigate("/home");
+          dispatch(updateStatus(true));
+        }
+      } catch (error) {
+        // Appwrite returns errors in the format: error.message
+        setErr(error.message || "Invalid email or password");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      // Appwrite returns errors in the format: error.message
-      setErr(error.message || "Invalid email or password");
-    } finally {
-      setLoading(false);
+  
     }
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
@@ -84,8 +88,8 @@ function Login() {
           <div>
             <div className="flex justify-between mb-2">
               <label className="text-sm font-semibold text-slate-700">Password</label>
-              <button 
-                onClick={() => navigate('/forget')} 
+              <button
+                onClick={() => navigate('/forget')}
                 className="text-sm font-medium text-blue-600 hover:underline"
               >
                 Forgot?
@@ -108,9 +112,8 @@ function Login() {
           <button
             onClick={loginn}
             disabled={loading}
-            className={`w-full flex justify-center items-center font-bold py-3 rounded-lg transition-all shadow-lg text-white ${
-              loading ? "bg-slate-400 cursor-not-allowed" : "bg-slate-900 hover:bg-slate-800 active:scale-95"
-            }`}>
+            className={`w-full flex justify-center items-center font-bold py-3 rounded-lg transition-all shadow-lg text-white ${loading ? "bg-slate-400 cursor-not-allowed" : "bg-slate-900 hover:bg-slate-800 active:scale-95"
+              }`}>
             {loading ? (
               <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
             ) : "Sign In"}
