@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateStatus } from '../RTK/UserSlice';
 import authService from '../Appwrite/config';
+import { updateData } from '../RTK/UserDataSlice';
 
 function Login() {
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ function Login() {
           // if(userData) dispatch(updateStatus(userData));
           navigate("/home");
           dispatch(updateStatus(true));
+          dispatch(updateData(session));
         }
       } catch (error) {
         // Appwrite returns errors in the format: error.message

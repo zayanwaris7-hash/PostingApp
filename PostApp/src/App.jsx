@@ -17,7 +17,7 @@ import { updateData } from './RTK/UserDataSlice';
 // 1. Keep the router definition here
 const route = createHashRouter(createRoutesFromElements(
   <Route path='/' element={<Layout />}>
-    <Route index path='container' element={<Container />} />
+    <Route index={true} element={<Container />} />
     <Route path='forget' element={<ForgetPasswordPage />} />
     <Route path='reset' element={<ResetPasswordPage />} />
     <Route path='login' element={<Login />} />

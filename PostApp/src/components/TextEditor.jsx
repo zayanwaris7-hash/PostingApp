@@ -1,7 +1,7 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 
-function TextEditor({ label, value, onChange }) {
+function TextEditor({ label, value, onChange,defualtValue=""}) {
   return (
     <div className="w-full space-y-2">
       {label && <label className="block text-sm font-bold text-slate-700">{label}</label>}
@@ -26,6 +26,7 @@ function TextEditor({ label, value, onChange }) {
             skin: "oxide",
             content_css: "default"
           }}
+          initialValue={defualtValue}
           onEditorChange={onChange} // This sends the HTML string back to your state
         />
       </div>

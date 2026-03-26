@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch,useSelector } from 'react-redux';
 import { updateStatus } from '../RTK/UserSlice'; // Update path as needed
 import authService from '../Appwrite/config'; // Update path as needed
-import TextEditor from './TextEditor';
+import CreatePost from './CreatePost';
 
 function Home() {
   const user =  useSelector((state) => (state.UserData));
@@ -16,9 +16,10 @@ function Home() {
     seterr("");
     try {
       setIsLoggingOut(true);
-      await authService.logout(); // Appwrite call
+      const a=await authService.logout(); // Appwrite call
+      navigate('/',{replace:true});
       dispatch(updateStatus(false)); // Redux call
-      navigate('/container');
+      
     } catch (error) {
       console.error("Logout failed:", error.message);
       seterr(error.message);
@@ -61,31 +62,7 @@ function Home() {
               )}
 
       {/* 1. Create Post Section */}
-      <div className="bg-white rounded-2xl sm:rounded-[2rem] p-4 sm:p-6 shadow-sm border border-slate-100">
-        <div className="flex gap-3 sm:gap-4">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-indigo-100 flex-shrink-0 border-2 border-white shadow-sm overflow-hidden">
-            <img src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=6366f1&color=fff&size=128`} alt="avatar" />
-          </div>
-
-          <div className="flex-1">
-            <TextEditor/>
-
-            <div className="flex justify-between items-center mt-3 sm:mt-4">
-              <div className="flex gap-1 sm:gap-2">
-                <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
-                  <span className="text-lg sm:text-xl">🖼️</span>
-                </button>
-                <button className="p-2 hover:bg-slate-100 rounded-lg text-slate-500 transition-colors">
-                  <span className="text-lg sm:text-xl">🔗</span>
-                </button>
-              </div>
-              <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-5 sm:px-8 py-2 sm:py-2.5 rounded-xl shadow-lg shadow-indigo-100 transition-all active:scale-95 text-sm sm:text-base">
-                Post
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <CreatePost  User={user}/>
 
       {/* 2. Empty Feed / Follow Suggestion Section */}
       <div className="bg-white rounded-2xl sm:rounded-[2.5rem] p-6 sm:p-12 text-center border-2 border-dashed border-slate-200">

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateStatus } from '../RTK/UserSlice';
 import authService from '../Appwrite/config';
+import { updateData } from '../RTK/UserDataSlice';
 function SignUp() {
   const dispatch=useDispatch();
   const [UserName, setUserName] = useState('');
@@ -30,6 +31,8 @@ function SignUp() {
       if (signup) {
         navigate('/home')
         dispatch(updateStatus(true))
+        dispatch(updateData(signup));
+
 
       };
     } catch (error) {
