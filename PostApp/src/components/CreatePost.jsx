@@ -8,11 +8,9 @@ import Service from '../Appwrite/config2';
 function CreatePost({ User }) {
   
   const fileInputRef = useRef(null);
-  const [Content, setcontent] = useState(" ")
+ 
   const st=useSelector((state)=>(state.user));
-  const onContentChange = (e) => {
-    setcontent(e.target.value);
-  }
+
 
   const FileUploadLogic = async (e) => {
     const file = e.target.files[0];
@@ -22,7 +20,7 @@ function CreatePost({ User }) {
         const creation = await Service.createPost({
           title: "",
           slug: "",
-          content: Content,
+          content:"",
           featuredImage: uploadf.$id,
           status: st,
           userId: User.$id,
@@ -46,7 +44,7 @@ function CreatePost({ User }) {
         <div className="flex-1">
           {/* Your TinyMCE Editor Component */}
           <div className="min-h-[100px]">
-            <TextEditor label={"CREATE POST !"} value={Content} onChange={onContentChange} defualtValue='Write Discription Here!' />
+            <TextEditor  />
           </div>
 
 
