@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import userSlice from './UserSlice';
-import  UserDataSlice  from './UserDataSlice';
+import { CurrentUserPostSlice } from './CurrentUserPostSlice';
+import { CurrentPostSlice } from './CurrentPostSlice';
 
 const store = configureStore({
   reducer: {
     user:userSlice,
-    UserData:UserDataSlice
+    posts:CurrentUserPostSlice,
+    CurrentPost:CurrentPostSlice
   },
 });
 

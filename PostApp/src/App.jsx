@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { updateStatus } from './RTK/UserSlice'; // Adjust path
+import { addObj, updateStatus } from './RTK/UserSlice'; // Adjust path
 import authService from './Appwrite/config'; // Adjust path
 import Layout from './layout/layout';
 import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
-import Login from './components/login';
-import SignUp from './components/SignUp';
-import Home from './components/Home';
-import Container from './components/Container';
-import ForgetPasswordPage from './components/ForgetPasswordPage';
-import ResetPasswordPage from './components/ResetPasswordPage';
-import Posts from './components/Posts';
-import Profile from './components/Profile';
-import { updateData } from './RTK/UserDataSlice';
+import {Login ,Home ,ResetPasswordPage,ForgetPasswordPage,Posts,Profile,Container,SignUp} from './importjs/index'
 
 // 1. Keep the router definition here
 const route = createHashRouter(createRoutesFromElements(
@@ -36,15 +28,18 @@ function App() {
     authService.getCurrentUser().then((data) => {
       if (data) {
         dispatch(updateStatus(true))
-        dispatch(updateData(data))
+        dispatch(addObj(data))
+        
       } else {
-        dispatch(updateData({}))
         dispatch(updateStatus(false))
+        
+        dispatch(addObj())
       }
     }
-    ).catch(
-      dispatch(updateStatus(false)),
-      dispatch(updateData({}))
+  ).catch(
+    dispatch(updateStatus(false)),
+    dispatch(addObj())
+      
     ).finally(() => {
       setLoading(false)
     })

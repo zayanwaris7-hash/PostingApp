@@ -6,7 +6,7 @@ import authService from '../Appwrite/config'; // Update path as needed
 import CreatePost from './CreatePost';
 
 function Home() {
-  const user =  useSelector((state) => (state.UserData));
+  const user =  useSelector((state) => (state.user.obj));
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isLoggingOut, setIsLoggingOut] = useState(false);

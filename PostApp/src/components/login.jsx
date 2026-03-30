@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { updateStatus } from '../RTK/UserSlice';
+import { addObj, updateStatus } from '../RTK/UserSlice';
 import authService from '../Appwrite/config';
-import { updateData } from '../RTK/UserDataSlice';
 
 function Login() {
   const navigate = useNavigate();
-  const dispatch = useDispatch(); // You'll need this for Redux later
+  const dispatch = useDispatch(); 
+ 
   const [em, setem] = useState("");
   const [pas, setpas] = useState("");
   const [err, setErr] = useState("");
@@ -30,6 +30,7 @@ function Login() {
           email: em,
           password: pas
         });
+        console.log(session)
 
         if (session) {
           // Here you would typically get user data and dispatch to Redux
@@ -37,7 +38,7 @@ function Login() {
           // if(userData) dispatch(updateStatus(userData));
           navigate("/home");
           dispatch(updateStatus(true));
-          dispatch(updateData(session));
+          dispatch(addObj(session));
         }
       } catch (error) {
         // Appwrite returns errors in the format: error.message

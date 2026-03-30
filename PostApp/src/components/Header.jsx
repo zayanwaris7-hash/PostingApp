@@ -4,12 +4,11 @@ import { NavLink, Link } from 'react-router-dom'
 
 function Header() {
     const isLogged = useSelector((state) => (state.user.status));
-    const user =  useSelector((state) => (state.UserData));
-
+    const user = useSelector((state) => (state.user.obj));
+   // console.log(user)
     // Common styles for the NavLinks to keep code clean
-    const navLinkStyles = ({ isActive }) => 
-        `px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${
-            isActive 
+    const navLinkStyles = ({ isActive }) =>
+        `px-3 md:px-4 py-1.5 rounded-lg text-xs md:text-sm font-semibold transition-all whitespace-nowrap ${isActive
             ? "bg-white text-indigo-600 shadow-sm"  // Active Styles
             : "text-slate-700 hover:bg-white/50"    // Inactive Styles
         }`;
@@ -64,7 +63,8 @@ function Header() {
                         <Link to="/profile">
                             <div className="w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-white ring-2 ring-slate-100 cursor-pointer overflow-hidden shrink-0 hover:ring-indigo-300 transition-all">
                                 <img
-                                    src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=6366f1&color=fff&size=128`}
+                                    src={`https://ui-avatars.com/api/?name=${user?.name
+                                        || 'User'}&background=6366f1&color=fff&size=128`}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />

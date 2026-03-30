@@ -1,15 +1,37 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import slug from '../slugmaker/slug'
+import { useDispatch } from 'react-redux';
+import { addValues } from '../RTK/CurrentPostSlice';
 
-function TextEditor() {
+function TextEditor(isClicked=false) {
+  const dispatch=useDispatch();
   const [slugg,setslug]=useState()
   const [value, setvalue] = useState("")
-  const [title, settitle] = useState("")
+  const [titlee, settitle] = useState("")
   const onChange=(newValue,editor)=>{
     setvalue(newValue)
   }
+  useEffect(() => {
+    dispatch(addValues({
+      title:titlee,
+      slug:slugg,
+      content:value
+    }));
+  
+    
+  }, [value,slugg,titlee])
+
+  useEffect(() => {
+    setslug("");
+    settitle("");
+    setvalue("");
+  
+    
+  }, [isClicked])
+  
+  
 
   return (
 <div className="w-full space-y-6 md:space-y-8">
@@ -20,7 +42,7 @@ function TextEditor() {
       Post Title
     </label>
     <input 
-      value={title}
+      value={titlee}
       type="text"
       autoComplete='on'
       onChange={(e) => {

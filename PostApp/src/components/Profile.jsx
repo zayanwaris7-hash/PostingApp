@@ -1,9 +1,11 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import authService from '../Appwrite/config';
 
 function Profile() {
   // Pulling the user data we stored in Redux earlier
-  const user = useSelector((state) => state.UserData);
+  const user = useSelector((state) => state.user.obj);
+  
 
   return (
     <div className="min-h-screen bg-slate-50 pb-12">
@@ -13,12 +15,13 @@ function Profile() {
       {/* 2. Profile Section Container */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="-mt-12 sm:-mt-16 sm:flex sm:items-end sm:space-x-5">
-          
+
           {/* Avatar */}
           <div className="relative">
             <img
               className="h-24 w-24 sm:h-32 sm:w-32 rounded-3xl ring-4 ring-white bg-white object-cover shadow-lg"
-              src={`https://ui-avatars.com/api/?name=${user?.name || 'User'}&background=6366f1&color=fff&size=128`}
+              src={`https://ui-avatars.com/api/?name=${user?.name
+                || 'User'}&background=6366f1&color=fff&size=128`}
               alt="Profile"
             />
             <span className="absolute bottom-1 right-1 block h-4 w-4 rounded-full bg-green-400 ring-2 ring-white"></span>
@@ -58,7 +61,7 @@ function Profile() {
 
         {/* 4. Details & Content Grid */}
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Left Side: About Info */}
           <div className="space-y-6">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
@@ -79,14 +82,14 @@ function Profile() {
 
           {/* Right Side: Feed/Posts Placeholder */}
           <div className="md:col-span-2 space-y-4">
-             <div className="bg-white p-12 rounded-2xl shadow-sm border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center">
-                <div className="w-12 h-12 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-xl mb-3">
-                  📄
-                </div>
-                <h4 className="text-slate-900 font-bold">No posts yet</h4>
-                <p className="text-slate-500 text-sm max-w-xs">When you share your first developer insight, it will appear here!</p>
-                <button className="mt-4 text-indigo-600 font-bold text-sm hover:underline">Create your first post</button>
-             </div>
+            <div className="bg-white p-12 rounded-2xl shadow-sm border-2 border-dashed border-slate-200 flex flex-col items-center justify-center text-center">
+              <div className="w-12 h-12 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-xl mb-3">
+                📄
+              </div>
+              <h4 className="text-slate-900 font-bold">No posts yet</h4>
+              <p className="text-slate-500 text-sm max-w-xs">When you share your first developer insight, it will appear here!</p>
+              <button className="mt-4 text-indigo-600 font-bold text-sm hover:underline">Create your first post</button>
+            </div>
           </div>
 
         </div>
