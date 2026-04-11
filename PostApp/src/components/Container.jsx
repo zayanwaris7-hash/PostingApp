@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateStatus } from '../RTK/UserSlice';
 import { useNavigate } from 'react-router-dom';
 
 function Container() {
   const navigate=useNavigate();
+  const isactive=useSelector((state)=>(state.user.status))
+  if(isactive) navigate('/home')
 
   const switchToLogin=()=>{
     navigate('/login');

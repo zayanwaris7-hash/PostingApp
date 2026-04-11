@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { addObj, updateStatus } from './RTK/UserSlice'; // Adjust path
 import authService from './Appwrite/config'; // Adjust path
 import Layout from './layout/layout';
-import { createHashRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { createHashRouter, createRoutesFromElements, Route, RouterProvider, useNavigate } from 'react-router-dom';
 import {Login ,Home ,ResetPasswordPage,ForgetPasswordPage,Posts,Profile,Container,SignUp} from './importjs/index'
 
 // 1. Keep the router definition here
@@ -21,6 +21,7 @@ const route = createHashRouter(createRoutesFromElements(
 ));
 
 function App() {
+  //const navigate =useNavigate();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -29,7 +30,7 @@ function App() {
       if (data) {
         dispatch(updateStatus(true))
         dispatch(addObj(data))
-        
+        //navigate('home')
       } else {
         dispatch(updateStatus(false))
         

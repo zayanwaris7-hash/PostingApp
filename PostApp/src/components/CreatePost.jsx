@@ -22,7 +22,6 @@ function CreatePost({ User }) {
   };
 
   const PostCreation = async () => {
-    setisClicked(!isClickedd);
     
     // Clear previous error before starting new attempt
     seterr("");
@@ -37,12 +36,14 @@ function CreatePost({ User }) {
               title: String(postData.title),
               slug: String(postData.slug),
               content: String(postData.content),
-              featuredImage: uploadf.$id,
-              status: st,
-              userId: User.$id,
+              featuredImage:String( uploadf.$id),
+              status: String(st),
+              userId: String(User.$id),
             });
-
+            
             if (creation) {
+              console.log(creation)
+              setisClicked(!isClickedd);
               dispatch(addPosts(creation));
               // Reset state on success
               setfile(null);
