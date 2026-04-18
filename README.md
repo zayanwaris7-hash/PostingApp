@@ -57,14 +57,15 @@ npm run dev
 # Or run separately
 node server.js
  ## 📂 Project Structure
-Plaintext
+
+```text
 ├── models/         # Database schemas (User, Post)
 ├── routes/         # API endpoints
 ├── controllers/    # Logic for handling requests
 ├── middleware/     # Auth and error handling
 ├── client/         # React frontend files
 └── server.js       # Main entry point
-
+```
 
 ## 🤝 Contributing
 Fork the Project
